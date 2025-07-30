@@ -1,0 +1,27 @@
+/* App.css */
+body {
+    background-image: url('/black.avif');  /* adjust the path */
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center center;
+     min-height: 100vh;
+   }
+   .bg-container {
+     background-image: url('/ground.jpeg');
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center;
+     padding: 20px;
+     border-radius: 10px;
+     min-height: 100vh;
+     color: #fff;
+   }
+  p{
+   color:rgb(24, 112, 212);
+  } 
+  h2{
+   color: red;
+  }
+   h1{
+     color: wheat;
+   }

@@ -24,37 +24,12 @@ const UpdateCars = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Basic validation
-    if (
-      !car.CarId || isNaN(car.CarId) || car.CarId <= 0 ||
-      !car.Brand.trim() || !car.Model.trim() || !car.Color.trim() || !car.RegNo.trim() || !car.CarImage.trim() ||
-      !car.Year || isNaN(car.Year) || parseInt(car.Year) < 1900 ||
-      !car.DailyRate || isNaN(car.DailyRate) || parseFloat(car.DailyRate) <= 0
-    )
     
-     {
-      alert("Please fill all fields correctly.");
-      return;
-    }
-
-    const payload = {
-      CarId: parseInt(car.CarId),
-      Brand: car.Brand,
-      Model: car.Model,
-      Year: parseInt(car.Year),
-      Color: car.Color,
-      DailyRate: parseFloat(car.DailyRate),
-      CarImage: car.CarImage, // This is now a string (URL)
-      RegNo: car.RegNo
-    };
-
-    console.log("Payload being sent:", payload);
 
     try {
       const res = await axios.put(
         'https://cors-anywhere.herokuapp.com/https://freeapi.miniprojectideas.com/api/CarRentalApp/UpdateCar',
-        payload,
+        car,
         {
           headers: {
             'Content-Type': 'application/json'

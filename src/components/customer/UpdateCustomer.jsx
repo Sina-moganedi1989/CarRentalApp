@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function UpdateCustomer() {
+  const navigate = useNavigate();
   const [customer, setCustomer] = useState({
     CustomerId: '',
     CustomerName: '',
@@ -21,9 +23,11 @@ function UpdateCustomer() {
       );
       setMessage('Customer updated successfully!');
       console.log(response.data);
+
       setTimeout(() => {
         navigate('/ListOfCustomer');
       }, 2000);
+      
     } catch (error) {
       console.error('Error updating customer:', error);
       setMessage('Failed to update customer. Please check console for details.');

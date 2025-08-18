@@ -12,7 +12,6 @@ function CreateCars() {
     Year: new Date().getFullYear(),
     Color: '',
     DailyRate: 0,
-    CarImage: '',
     RegNo: ''
   });
 
@@ -26,7 +25,7 @@ function CreateCars() {
       reader.onloadend = () => {
         setFormData((prev) => ({
           ...prev,
-          CarImage: reader.result, // base64 string
+          CarImage: reader.result.split(',')[1]  // only base64 data, no MIME type prefix
         }));
       };
       if (files && files[0]) {
@@ -45,6 +44,8 @@ function CreateCars() {
     e.preventDefault();
   
     try {
+      console.log("Sending payload:", formData);
+  
       const response = await axios.post(
         'https://cors-anywhere.herokuapp.com/https://freeapi.miniprojectideas.com/api/CarRentalApp/CreateNewCar',
         formData,
@@ -55,23 +56,24 @@ function CreateCars() {
         }
       );
   
-      if (response.status === 200) {
+      console.log("Response:", response.data);
+  
+      if (response.status === 200 && response.data?.result === true) {
         setMessage('Car added successfully!');
         setFormData({
-          CarId: 0,
           Brand: '',
           Model: '',
           Year: new Date().getFullYear(),
           Color: '',
           DailyRate: 0,
-          CarImage: '',
           RegNo: ''
         });
+  
         setTimeout(() => {
-          navigate('/CreateCars');
+          navigate('/ListOfCars');
         }, 2000);
       } else {
-        setMessage('Failed to add car. Server error.');
+        setMessage('Failed to add car: ' + (response.data?.message || 'Unknown error.'));
       }
     } catch (error) {
       console.error('Error:', error);
@@ -79,24 +81,13 @@ function CreateCars() {
     }
   };
   
+  
 
   return (
     <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px", border: "1px solid #ccc" }}>
         <h2>Add New Car</h2>
         {message && <p>{message}</p>}
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "10px" }}>
-            <label style={{color:"blue", fontSize:"20px"}}> Car ID:</label><br />
-            <input
-              type="number"
-              required
-              name='CarId'
-              value={formData.CarId}
-              onChange={handleChange}
-              placeholder="Enter ID"
-              style={{ width: "100%", padding: "8px" }}
-            />
-          </div>
           <div style={{ marginBottom: "10px" }}>
             <label style={{color:"blue",fontSize:"20px"}}>Brand:</label><br />
             <input
@@ -124,7 +115,7 @@ function CreateCars() {
           <div style={{ marginBottom: "10px" }}>
             <label style={{color:"blue",fontSize:"20px"}}>Year:</label><br />
             <input
-              type="text"
+              type="number"
               name='Year'
               required
               value={formData.Year}
@@ -158,21 +149,24 @@ function CreateCars() {
             />
           </div>
           <div style={{ marginBottom: "10px" }}>
-            <label style={{color:"blue",fontSize:"20px"}}>Car Image:</label><br />
-            <input
-              type="file"
-              name='CarImage'
-              required
-              accept='image/*'
-              onChange={handleChange}
-              style={{ width: "100%", padding: "8px" }}
-            />
-          </div>
+  <label style={{color:"blue", fontSize:"20px"}}>Registration No:</label><br />
+  <input
+    type="text"
+    name="RegNo"
+    required
+    value={formData.RegNo}
+    onChange={handleChange}
+    placeholder="Enter Registration No"
+    style={{ width: "100%", padding: "8px" }}
+  />
+</div>
+
+        
           
           <button type="submit" style={{ padding: "10px", width: "100%", backgroundColor:"red", marginBottom:"10px"}}>
             Add Car
           </button>
-          <button type="submit" style={{ padding: "10px", width: "100%", backgroundColor:"red" }} onClick={() => navigate('/ListOfCars')}>
+          <button type="" style={{ padding: "10px", width: "100%", backgroundColor:"red" }} onClick={() => navigate('/ListOfCars')}>
             List of Cars
           </button>
         </form>

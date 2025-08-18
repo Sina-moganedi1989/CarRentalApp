@@ -24,57 +24,48 @@ function CreateCustomer() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post(
-                'https://cors-anywhere.herokuapp.com/https://freeapi.miniprojectideas.com/api/CarRentalApp/CreateNewCustomer',
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-
-            if (response.status === 200) {
-                setMessage('Customer added successfully!');
-                setFormData({
-                    CustomerId: "",
-                    CustomerName: '',
-                    CustomerCity: '',
-                    MobileNo: '',
-                    Email: ''
-                });
-                 // Navigate after 2 seconds
-            setTimeout(() => {
-                navigate("/SignIn");
+      e.preventDefault();
+  
+      try {
+          const response = await axios.post(
+              'https://cors-anywhere.herokuapp.com/https://freeapi.miniprojectideas.com/api/CarRentalApp/CreateNewCustomer',
+              formData,
+              {
+                  headers: {
+                      'Content-Type': 'application/json'
+                  }
+              }
+          );
+  
+          console.log("Response:", response.data);
+  
+          if (response.status === 200 && response.data?.result === true) {
+              setMessage('Customer added successfully!');
+              setFormData({
+                  CustomerName: '',
+                  CustomerCity: '',
+                  MobileNo: '',
+                  Email: ''
+              });
+  
+              setTimeout(() => {
+                  navigate("/SignIn");
               }, 2000);
-            } else {
-                setMessage('Failed to add customer. Server error.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            setMessage('Failed to add customer. Network error.');
-        }
-    };
+          } else {
+              setMessage('Failed: ' + (response.data?.message || 'Unknown error.'));
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          setMessage('Network or server error.');
+      }
+  };
+  
+  
 
     return (
         <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px", border: "1px solid #ccc" }}>
         <h2>New Customer</h2>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "10px" }}>
-            <label style={{color:"blue", fontSize:"20px"}}>ID:</label><br />
-            <input
-              type="number"
-              required
-              name='CustomerId'
-              value={formData.CustomerId}
-              onChange={handleChange}
-              placeholder="Enter ID"
-              style={{ width: "100%", padding: "8px" }}
-            />
-          </div>
           <div style={{ marginBottom: "10px" }}>
             <label style={{color:"blue",fontSize:"20px"}}>Name:</label><br />
             <input

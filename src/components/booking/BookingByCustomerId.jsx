@@ -30,6 +30,10 @@ const BookingsByCustomerId = () => {
 
       if (result.result && result.data && result.data.length > 0) {
         setBookings(result.data);
+
+        setTimeout(() => {
+          navigate('/Dashboard');
+        }, 2000);
       } else {
         setMessage('No bookings found for this customer.');
       }

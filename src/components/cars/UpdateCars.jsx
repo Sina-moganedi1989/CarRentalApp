@@ -94,7 +94,11 @@ const UpdateCars = () => {
         </div>
         <div style={{ marginBottom: "10px" }}>
           <label htmlFor='CarImage' style={{color:"blue",fontSize:"20px"}}>Car Image URL:</label>
-          <input type="text" name='CarImage' value={car.CarImage} onChange={handleChange} required  style={{ width: "100%", padding: "8px" }}/>
+         <input type="text"
+          name='CarImage' 
+          value={car.CarImage} 
+          onChange={handleChange} required  
+          style={{ width: "100%", padding: "8px" }}/>
         </div>
         <div style={{ marginBottom: "10px" }}>
           <label htmlFor='RegNo' style={{color:"blue",fontSize:"20px"}}>Registration No:</label>
